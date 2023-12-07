@@ -1,48 +1,48 @@
 const  express = require("express");
 const app = express();
 const mongoose = require('mongoose');
-const TenantModel = require('./models/Tenants');
+const ProblemModel = require('./models/Problem');
 const cors = require("cors");
 
 
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb+srv://qlm5011:Password123@cluster1.kyrrnfm.mongodb.net/files?retryWrites=true&w=majority");
+mongoose.connect("mongodb+srv://qlm5011:Password123@cluster10.jmhzyjc.mongodb.net/apt?retryWrites=true&w=majority");
 
-app.get("/getTenant",async (req,res) => {
+app.get("/getProblems", async (req, res) => {
     try {
-        const result = await TenantModel.find({});
+        const result = await ProblemModel.find({});
         res.json(result);
     } catch (err) {
         res.json(err);
     }
 });
-app.post("/createTenant",async (req,res) => {
-    const item =  req.body;
-    const newItem = new TenantModel (item);
-    await newItem.save();
 
-    res.json(item);
-    });
+app.put("/UpdateStatus", async (req, res) => {
+
+    const newStat = req.body.newStat;
+    const id = req.body.id;
+    console.log(newStat,id);
     
-app.post("/deleteTenant", async (req,res) => {
-        const {id }= req.body;
-        try{
-            itemsModel.deleteOne({_id: id}, function(err, res) {
-                console.log(err);
-            });
-        } catch(error) {
-            console.log(error);
-            
-        }
+    try {
+        await ProblemModel.findById(id, (error, StatToUpdate)=> {
+    
+            StatToUpdate.Status = newStat;
+            StatToUpdate.save();
+        });
         
+    } catch (err) {
+        console.log(err);
+        
+    }
+    res.send("updated!");
     
-       
+    
     });
 
 
 
 app.listen(3001, () =>{
-console.log("server runs!");
-});
+    console.log("server runs!");
+    });

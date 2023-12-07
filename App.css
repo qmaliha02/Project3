@@ -1,16 +1,18 @@
 .App {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
   text-align: center;
 }
 body{
   margin: 0;
   padding: 0;
  }
+ .Title {
 
-
-.Title {
   margin: 0;
   width: 100%;
-  height: 200px;
+  height: 80px;
   background-color: black;
   display: flex;
   justify-content: center;
@@ -18,23 +20,11 @@ body{
   align-items: center;
   color: white;
   text-decoration: none;
-}
 
-.TentDisplay {
-
-  
-  font-family: 'Courier New', Courier, monospace;
-  font-size: xx-small;
-  display: flex;
 
 }
-.ItemContainer {
-  display: flex;
-flex-direction: row;
-margin: 10px;
-}
 
-.ItemContainer button{
+.Title button{
 
   border: none;
   width: 150px;
@@ -45,7 +35,19 @@ margin: 10px;
   font-size: 15px;
 }
 
-.Create input {
+.ItemDisplay {
 
-
+  font-family: 'Courier New', Courier, monospace;
+  font-size: xx-small;
+  
+  flex-direction: row;
+  margin: 10px;
 }
+
+
+
+
+
+
+
+

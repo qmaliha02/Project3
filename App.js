@@ -1,130 +1,71 @@
-
 import './App.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import Axios from "axios";
 
 function App() {
-  const [ListofTent, setListofTent] = useState([]);
-  const[ID, setID]= useState(0);
-  const[Name, setName] = useState("");
-  const[Phone_Number, setPNumber] = useState(0);
-  const[Email, setEmail] = useState("");
-  const[Date_of_CheckIn, setCheckIn] = useState("");
-  const[Date_of_CheckOut, setCheckOut] = useState("");
-  const[Apt_Num, setApt] = useState(0);
+
+  const[listofProb, setlistofProb] = useState ([]);
+  const[searchTerm, setSearchTerm]=useState('');
 
 
-useEffect (() => 
-{
-  Axios.get("http://localhost:3001/getTenant").then((response) => {
-    setListofTent(response.data);
-  });
-},[]);
+  useEffect(()  => {
+  Axios.get("http://localhost:3001/getProblems").then((response) => {
+    setlistofProb(response.data);
+  })
+}, []);
 
+  const UpdateStatus = (id) => {
+    const newStat = prompt("Enter new Status : ");
 
-const CreateTenant =() => {
+    Axios.put("http://localhost:3001/UpdateStatus", {newStat: newStat, id: id}).then(() =>{
+      setlistofProb(listofProb.map((item) =>{
+        return item._id === id ? {_id: id, 
+          reqid: item.reqid, 
+          aptnum: item.aptnum,
+          probarea: item.probarea,
+          description: item.description,
+          photo: item.photo,
+          status: newStat,
+          date: item.date} : item
+      }))
+    })};
 
-  Axios.post("http://localhost:3001/createTenant",{
-ID,
-Name,
-Phone_Number,
-Email,
-Date_of_CheckIn,
-Date_of_CheckOut,
-Apt_Num
-
-  }).then((response) => {
-    setListofTent([...ListofTent, {ID,
-      Name,
-      Phone_Number,
-      Email,
-      Date_of_CheckIn,
-      Date_of_CheckOut,
-      Apt_Num
-
-    },]);
-  });
-
-};
-
-const DeleteItem = (id, Name) => {
-  if(window.confirm(`Are you sure you want to delete ${Name}`)){
-
-fetch("http://localhost:3001/deleteTenant", {
-method: "POST",
-crossDomain: true,
-headers: {
-  "Content-type": "application/json",
-  Accept: "application/json",
-  "Access-Control-Allow-Origin": "*",
-},
-body: JSON.stringify({
-  id : id,
-}),
-})
-.then((res) => res.json())
-.then((data) => {
-alert(data.data);
-})
-  }else{
-
-  }
-};
 
   return (
     <div className="App">
       <div className="Title">
-        <h1>Manager</h1>
-        <h1>List of Tenants</h1>
-      </div>
-      <div className="TentDisplay">
-        {
-          ListofTent.map((user)=>{
-            return(
-           <div className="ItemContainer">
-            <div className="Display">
-              <h1>ID: {user.ID}</h1>
-              <h1>Name: {user.Name}</h1>
-              <h1>Phone Number: {user.Phone_Number}</h1>
-              <h1>Email: {user.Email}</h1>
-              <h1>Date of Check-in: {user.Date_of_CheckIn}</h1>
-              <h1>Date of Check-out: {user.Date_of_CheckOut}</h1>
-              <h1>Apartment Number: {user.Apt_Num}</h1>
+<h1>Maintenance Request</h1>
+<input type="text" placeholder="Search..."onChange={(event) => {
+  setSearchTerm(event.target.value);
+           }}/>
+<button> Search</button>
+          
               </div>
-              <button onClick={() =>{
-               DeleteItem(user._id, user.Name);
-            }}>Delete</button>
-              </div>
-            ); 
-        })}
+       <div className="ItemDisplay">
+      {
+      listofProb.map((item) => {
 
+
+
+          return (
+            <div className="Display">
+              
+              <h1>Request ID: {item.reqid}</h1>
+              <h1>Apartment Number: {item.aptnum}</h1>
+              <h1>Problem Area: {item.probarea}</h1>
+              <h1>Description: {item.description}</h1>
+              <h1>Optional PhotoUrl: {item.photo}</h1>
+              <h1>Status: {item.status}</h1>
+              <h1>Date: {item.date}</h1>
+             <button onClick={() => {
+              UpdateStatus(item._id);
+            }} 
+            >Update Status</button>
+           
+            </div>
+          );
+        })}
       </div>
-      <div className="Create">
-        <h1>Create New Tenant</h1>
-        <input type="number" placeholder="ID..."onChange={(event) => {
-          setID(event.target.value);
-        }}/>
-        <input type="text" placeholder="Name..."onChange={(event) => {
-          setName(event.target.value);
-        }}/>
-        <input type="number" placeholder="Phone Number..."onChange={(event) => {
-          setPNumber(event.target.value);
-        }}/>
-        <input type="text" placeholder="Email..."onChange={(event) => {
-          setEmail(event.target.value);
-        }}/>
-        <input type="text" placeholder="date of check in..."onChange={(event) => {
-          setCheckIn(event.target.value);
-        }}/>
-        <input type="text" placeholder="date of check out..."onChange={(event) => {
-          setCheckOut(event.target.value);
-        }}/>
-        <input type="number" placeholder="Apartment Number..."onChange={(event) => {
-          setApt(event.target.value);
-        }}/>
-        <button onClick={CreateTenant}> Create Tenant</button>
-      </div>
-      
     </div>
   );
 }
