@@ -1,0 +1,53 @@
+.App {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  text-align: center;
+}
+body{
+  margin: 0;
+  padding: 0;
+ }
+ .Title {
+
+  margin: 0;
+  width: 100%;
+  height: 80px;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+
+
+}
+
+.Title button{
+
+  border: none;
+  width: 150px;
+  height: 80px;
+  background-color: grey;
+  color: black;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.ItemDisplay {
+
+  font-family: 'Courier New', Courier, monospace;
+  font-size: xx-small;
+  
+  flex-direction: row;
+  margin: 10px;
+}
+
+
+
+
+
+
+
+
