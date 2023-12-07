@@ -10,7 +10,7 @@
 ![image](https://github.com/qmaliha02/Project3/assets/144977322/31e1bfaa-cc40-4cba-b5dc-467ba6199574)
 ![image](https://github.com/qmaliha02/Project3/assets/144977322/9164ce62-00c2-4461-85aa-0018feaa2d90)
 ![image](https://github.com/qmaliha02/Project3/assets/144977322/2c18bc38-cb24-46de-a188-594b71133f0c)
-
+server and client zip files are the same except for the files specifically added on this repository.
 
 
 
